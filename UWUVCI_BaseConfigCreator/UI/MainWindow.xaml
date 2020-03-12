@@ -1,0 +1,42 @@
+﻿<Window x:Class="UWUVCI_BaseConfigCreator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UWUVCI_BaseConfigCreator"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="329.509" Width="800">
+    <Grid DataContext="{StaticResource mvm}">
+        <GroupBox Header="Config" HorizontalAlignment="Left" Height="231" Margin="10,10,0,0" VerticalAlignment="Top" Width="326">
+            <Grid HorizontalAlignment="Left" Height="206" Margin="0,0,-2,0" VerticalAlignment="Top" Width="316">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="99*"/>
+                    <ColumnDefinition Width="217*"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox HorizontalAlignment="Left" Margin="5.738,67,0,0" VerticalAlignment="Top" Width="191" Grid.Column="1" SelectedItem="{Binding TempBase.Region}" ItemsSource="{Binding Regions}"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="5.738,32,0,0" TextWrapping="Wrap" Text="{Binding TempBase.Name}" VerticalAlignment="Top" Width="191" Grid.Column="1"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="5.738,105,0,0" TextWrapping="Wrap" Text="{Binding TempBase.Tid}" VerticalAlignment="Top" Width="191" Grid.Column="1"/>
+                <TextBlock HorizontalAlignment="Left" Margin="10,35,0,0" TextWrapping="Wrap" Text="Game Name:" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" Margin="10,70,0,0" TextWrapping="Wrap" Text="Game Region:" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" Margin="10,108,0,0" TextWrapping="Wrap" Text="Game ID:" VerticalAlignment="Top"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="6,136,0,0" TextWrapping="Wrap" Text="{Binding NonHashedKey}" VerticalAlignment="Top" Width="191" Grid.Column="1"/>
+                <TextBlock HorizontalAlignment="Left" Margin="10,139,0,0" TextWrapping="Wrap" Text="Game Key:" VerticalAlignment="Top"/>
+                <Button Content="Add" Grid.Column="1" HorizontalAlignment="Left" Margin="122,176,0,0" VerticalAlignment="Top" Width="75" Click="BtnAdd_Click"/>
+            </Grid>
+        </GroupBox>
+        <ComboBox HorizontalAlignment="Left" Margin="10,260,0,0" VerticalAlignment="Top" Width="326" ItemsSource="{Binding LConsoles}" SelectedItem="{Binding GameConsole}"/>
+        <Label Content="Console:" HorizontalAlignment="Left" Margin="10,238,0,0" VerticalAlignment="Top"/>
+        <GroupBox Header="List of Bases" HorizontalAlignment="Left" Height="231" Margin="356,10,0,0" VerticalAlignment="Top" Width="426">
+            <DataGrid x:Name="dgGameBases" HorizontalAlignment="Left" Height="209" Margin="0,0,-2,-1" VerticalAlignment="Top" Width="416" ItemsSource="{Binding LGameBases}" SelectedItem="{Binding SelectedGameBase}" SelectionMode="Single" AutoGenerateColumns="False" CanUserReorderColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserResizeColumns="False" CanUserSortColumns="False" MouseDoubleClick="dgGameBases_MouseDoubleClick">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Region" Binding="{Binding Region}"/>
+                    <DataGridTextColumn Header="Title ID" Binding="{Binding Tid}"/>
+                    <DataGridTextColumn Header="Hashed Key" Binding="{Binding KeyHash}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+        <Button Content="Export Base File" HorizontalAlignment="Left" Margin="685,260,0,0" VerticalAlignment="Top" Width="97" Click="BtnExport_Click"/>
+
+    </Grid>
+</Window>
