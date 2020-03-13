@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UWUVCI_BaseConfigCreator.Classes;
-using UWUVCI_BaseConfigCreator.Classes.ENUM;
 using UWUVCI_BaseConfigCreator.Classes.Exceptions;
+using GameBaseClassLibrary;
 
 namespace UWUVCI_BaseConfigCreator
 {
@@ -21,9 +20,9 @@ namespace UWUVCI_BaseConfigCreator
             }
         }
 
-        private List<GameConsole> lConsoles = new List<GameConsole>();
+        private List<GameConsoles> lConsoles = new List<GameConsoles>();
 
-        public List<GameConsole> LConsoles
+        public List<GameConsoles> LConsoles
         {
             get { return lConsoles; }
             set { 
@@ -32,9 +31,9 @@ namespace UWUVCI_BaseConfigCreator
             }
         }
 
-        private GameConsole gameConsole;
+        private GameConsoles gameConsole;
 
-        public GameConsole GameConsole
+        public GameConsoles GameConsole
         {
             get { return gameConsole; }
             set { gameConsole = value; }
@@ -51,6 +50,8 @@ namespace UWUVCI_BaseConfigCreator
                 OnPropertyChanged();
             }
         }
+
+       
 
         private string nonHashedKey;
 
@@ -87,8 +88,8 @@ namespace UWUVCI_BaseConfigCreator
 
         public MainViewModel()
         {
-            Regions = Enum.GetValues(typeof(Regions)).Cast<Regions>().ToList();
-            LConsoles = Enum.GetValues(typeof(GameConsole)).Cast<GameConsole>().ToList();
+            Regions = Enum.GetValues(typeof(GameBaseClassLibrary.Regions)).Cast<Regions>().ToList();
+            LConsoles = Enum.GetValues(typeof(GameConsoles)).Cast<GameConsoles>().ToList();
         }
 
         public void AddBaseToList()
@@ -131,7 +132,7 @@ namespace UWUVCI_BaseConfigCreator
             {
                 throw new GameBaseException("You need to add Bases first!");
             }
-            VCIFile.ExportFile(LGameBases, GameConsole);
+            VCBTool.ExportFile(LGameBases, GameConsole, @"config");
         }
     }
 }
