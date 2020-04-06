@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameBaseClassLibrary;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -7,7 +8,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
-using UWUVCI_BaseConfigCreator.Classes.ENUM;
+
 
 namespace UWUVCI_BaseConfigCreator.Classes
 {
@@ -16,7 +17,7 @@ namespace UWUVCI_BaseConfigCreator.Classes
     /// </summary>
     class VCIFile
     {
-        public static void ExportFile(List<GameBases> precomp, GameConsole console)
+        public static void ExportFile(List<GameBases> precomp, GameConsoles console)
         {
             CheckAndFixConfigFolder();
             Stream createConfigStream = new FileStream($@"configs\bases.vcb{console.ToString().ToLower()}", FileMode.Create, FileAccess.Write);
