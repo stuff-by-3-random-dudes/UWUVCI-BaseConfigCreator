@@ -97,15 +97,15 @@ namespace UWUVCI_BaseConfigCreator
           
             if (String.IsNullOrWhiteSpace(TempBase.Name))
             {
-                throw new GameBaseException($"A BaseName with no value is not valid");
+                throw new GameBaseException($"A BaseName with no value is not valid!");
             }
             if (String.IsNullOrWhiteSpace(TempBase.Tid))
             {
-                throw new GameBaseException($"A TitleID with no value is not valid");
+                throw new GameBaseException($"A TitleID with no value is not valid!");
             }
             if (String.IsNullOrWhiteSpace(NonHashedKey))
             {
-                throw new GameBaseException($"A TitleKey with no value is not valid");
+                throw new GameBaseException($"A TitleKey with no value is not valid!");
             }
             TempBase.KeyHash = NonHashedKey.GetHashCode();
             NonHashedKey = string.Empty;
