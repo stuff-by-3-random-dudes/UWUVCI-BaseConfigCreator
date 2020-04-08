@@ -117,7 +117,7 @@ namespace UWUVCI_BaseConfigCreator
             {
                 throw new GameBaseException($"A TitleKey with no value is not valid!");
             }
-            TempBase.KeyHash = NonHashedKey.GetHashCode();
+            TempBase.KeyHash = NonHashedKey.ToLower().GetHashCode();
             NonHashedKey = string.Empty;
             LGameBases.Add(TempBase);
             TempBase = new GameBases();
