@@ -37,6 +37,7 @@
             </DataGrid>
         </GroupBox>
         <Button Content="Export Base File" HorizontalAlignment="Left" Margin="685,260,0,0" VerticalAlignment="Top" Width="97" Click="BtnExport_Click"/>
+        <Button Content="Import Base File" HorizontalAlignment="Left" Margin="583,261,0,0" VerticalAlignment="Top" Width="97" Click="Button_Click"  />
 
     </Grid>
 </Window>

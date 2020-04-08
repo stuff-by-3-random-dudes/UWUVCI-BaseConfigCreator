@@ -74,5 +74,10 @@ namespace UWUVCI_BaseConfigCreator
             dgGameBases.ItemsSource = null;
             dgGameBases.ItemsSource = mvm.LGameBases;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            mvm.ReadBases();
+        }
     }
 }

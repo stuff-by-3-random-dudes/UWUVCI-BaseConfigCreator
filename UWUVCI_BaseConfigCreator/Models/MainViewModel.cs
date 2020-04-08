@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UWUVCI_BaseConfigCreator.Classes.Exceptions;
 using GameBaseClassLibrary;
+using System.Windows.Forms;
 
 namespace UWUVCI_BaseConfigCreator
 {
@@ -91,7 +92,16 @@ namespace UWUVCI_BaseConfigCreator
             Regions = Enum.GetValues(typeof(GameBaseClassLibrary.Regions)).Cast<Regions>().ToList();
             LConsoles = Enum.GetValues(typeof(GameConsoles)).Cast<GameConsoles>().ToList();
         }
-
+        public void ReadBases()
+        {
+            var ofd = new OpenFileDialog();
+            DialogResult res = ofd.ShowDialog();
+            if(res == DialogResult.OK)
+            {
+                LGameBases = VCBTool.ReadBasesFromVCB(ofd.FileName);
+            }
+            
+        }
         public void AddBaseToList()
         {
           
