@@ -142,6 +142,7 @@ namespace UWUVCI_BaseConfigCreator
             {
                 throw new GameBaseException("You need to add Bases first!");
             }
+            if (GameConsole == GameConsoles.GCN) GameConsole = GameConsoles.WII;
             VCBTool.ExportFile(LGameBases, GameConsole, @"config");
         }
     }

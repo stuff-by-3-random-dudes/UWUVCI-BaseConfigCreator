@@ -41,8 +41,9 @@
     <Reference Include="Costura, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\packages\Costura.Fody.4.1.0\lib\net40\Costura.dll</HintPath>
     </Reference>
-    <Reference Include="GameBaseClassLibrary">
-      <HintPath>..\..\GameBaseClassLibrary\GameBaseClassLibrary\bin\Debug\GameBaseClassLibrary.dll</HintPath>
+    <Reference Include="GameBaseClassLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\GameBaseClassLibrary\GameBaseClassLibrary\bin\Release\GameBaseClassLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
