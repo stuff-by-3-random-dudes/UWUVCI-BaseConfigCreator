@@ -145,5 +145,77 @@ namespace UWUVCI_BaseConfigCreator
             if (GameConsole == GameConsoles.GCN) GameConsole = GameConsoles.WII;
             VCBTool.ExportFile(LGameBases, GameConsole, @"config");
         }
+
+        public void moveSelBaseUp()
+        {
+
+            int length = LGameBases.Count - 1;
+            if(length > 0 && selectedGameBase != null)
+
+            {
+                List<GameBases> backupList = new List<GameBases>();
+                foreach (GameBases gb in LGameBases)
+                {
+                    backupList.Add(gb);
+                }
+                    int selBaseID = 0;
+                foreach (GameBases gb in backupList)
+                {
+                    if (gb.Name == SelectedGameBase.Name && gb.KeyHash == SelectedGameBase.KeyHash && gb.Region == SelectedGameBase.Region && gb.Tid == SelectedGameBase.Tid)
+                    {
+                        break;
+                    }
+                    selBaseID++;
+                }
+                if (selBaseID == length)
+                {
+                    GameBases SavedBase = backupList[selBaseID - 1];
+                    backupList[selBaseID - 1] = selectedGameBase;
+                    backupList[selBaseID] = SavedBase;
+                }
+                else
+                {
+                    GameBases SavedBase = backupList[selBaseID - 1];
+                    backupList[selBaseID - 1] = selectedGameBase;
+                    backupList[selBaseID] = SavedBase;
+                }
+                LGameBases = backupList;
+            }
+            
+        }
+        public void moveSelBaseDown()
+        {
+
+            int length = LGameBases.Count - 1;
+            if (length > 0 && selectedGameBase != null)
+
+            {
+                List<GameBases> backupList = new List<GameBases>();
+                foreach (GameBases gb in LGameBases)
+                {
+                    backupList.Add(gb);
+                }
+                int selBaseID = 0;
+                foreach (GameBases gb in backupList)
+                {
+                    if (gb.Name == SelectedGameBase.Name && gb.KeyHash == SelectedGameBase.KeyHash && gb.Region == SelectedGameBase.Region && gb.Tid == SelectedGameBase.Tid)
+                    {
+                        break;
+                    }
+                    selBaseID++;
+                }
+                if (selBaseID == length)
+                {
+                }
+                else
+                {
+                    GameBases SavedBase = backupList[selBaseID + 1];
+                    backupList[selBaseID + 1] = selectedGameBase;
+                    backupList[selBaseID] = SavedBase;
+                }
+                LGameBases = backupList;
+            }
+
+        }
     }
 }

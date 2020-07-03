@@ -38,6 +38,8 @@
         </GroupBox>
         <Button Content="Export Base File" HorizontalAlignment="Left" Margin="685,260,0,0" VerticalAlignment="Top" Width="97" Click="BtnExport_Click"/>
         <Button Content="Import Base File" HorizontalAlignment="Left" Margin="583,261,0,0" VerticalAlignment="Top" Width="97" Click="Button_Click"  />
+        <Button Content="^" HorizontalAlignment="Left" Margin="422,246,0,0" VerticalAlignment="Top" Width="25" Click="Button_Click_1"/>
+        <Button Content="v" HorizontalAlignment="Left" Margin="422,269,0,0" VerticalAlignment="Top" Width="25" Click="Button_Click_2"/>
 
     </Grid>
 </Window>
