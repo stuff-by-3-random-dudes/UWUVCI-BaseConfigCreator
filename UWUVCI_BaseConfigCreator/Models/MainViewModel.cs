@@ -92,15 +92,9 @@ namespace UWUVCI_BaseConfigCreator
             Regions = Enum.GetValues(typeof(GameBaseClassLibrary.Regions)).Cast<Regions>().ToList();
             LConsoles = Enum.GetValues(typeof(GameConsoles)).Cast<GameConsoles>().ToList();
         }
-        public void ReadBases()
+        public void ReadBases(string fileName)
         {
-            var ofd = new OpenFileDialog();
-            DialogResult res = ofd.ShowDialog();
-            if(res == DialogResult.OK)
-            {
-                LGameBases = VCBTool.ReadBasesFromVCB(ofd.FileName);
-            }
-            
+            LGameBases = VCBTool.ReadBasesFromVCB(fileName);   
         }
         public void AddBaseToList()
         {
@@ -136,14 +130,14 @@ namespace UWUVCI_BaseConfigCreator
             }
         }
 
-        public void SaveBasesToFile()
+        public void SaveBasesToFile(string fileName)
         {
             if(LGameBases.Count < 1)
             {
                 throw new GameBaseException("You need to add Bases first!");
             }
             if (GameConsole == GameConsoles.GCN) GameConsole = GameConsoles.WII;
-            VCBTool.ExportFile(LGameBases, GameConsole, @"config");
+            VCBTool.ExportFile(LGameBases, GameConsole, fileName);
         }
 
         public void moveSelBaseUp()

@@ -24,6 +24,7 @@ namespace UWUVCI_BaseConfigCreator
     public partial class MainWindow : Window
     {
         MainViewModel mvm = null;
+        private string ImportFileName = null;
         public MainWindow()
         {
             mvm = (MainViewModel)FindResource("mvm");
@@ -61,7 +62,9 @@ namespace UWUVCI_BaseConfigCreator
         {
             try
             {
-                mvm.SaveBasesToFile();
+                var fileName = "config";
+                mvm.SaveBasesToFile(fileName);
+                MessageBox.Show("New file saved to " + fileName + "\\" + ImportFileName);
             }
             catch (GameBaseException ex)
             {
@@ -77,7 +80,13 @@ namespace UWUVCI_BaseConfigCreator
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            mvm.ReadBases();
+            var ofd = new System.Windows.Forms.OpenFileDialog();
+            System.Windows.Forms.DialogResult res = ofd.ShowDialog();
+             
+            ImportFileName = System.IO.Path.GetFileName(ofd.FileName);
+
+            if (res == System.Windows.Forms.DialogResult.OK)
+                mvm.ReadBases(ofd.FileName);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
