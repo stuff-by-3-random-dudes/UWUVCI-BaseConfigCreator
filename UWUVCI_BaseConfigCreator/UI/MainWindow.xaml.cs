@@ -86,7 +86,13 @@ namespace UWUVCI_BaseConfigCreator
             ImportFileName = System.IO.Path.GetFileName(ofd.FileName);
 
             if (res == System.Windows.Forms.DialogResult.OK)
-                mvm.ReadBases(ofd.FileName);
+                try
+                {
+                    mvm.ReadBases(ofd.FileName);
+                } catch(Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
