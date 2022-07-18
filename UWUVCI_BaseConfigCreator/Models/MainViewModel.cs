@@ -94,7 +94,17 @@ namespace UWUVCI_BaseConfigCreator
         }
         public void ReadBases(string fileName)
         {
-            LGameBases = VCBTool.ReadBasesFromVCB(fileName);   
+            List<GameBases> temp = VCBTool.ReadBasesFromVCB(fileName);
+            var broken = false;
+            foreach (var gameBase in LGameBases)
+                foreach (var tempGameBase in temp)
+                    if (tempGameBase.KeyHash == gameBase.KeyHash && tempGameBase.Tid == gameBase.Tid)
+                        broken = true;
+
+            if (broken)
+                throw new GameBaseException($"The same file has been loaded, was this intended?");
+
+            LGameBases = temp;
         }
         public void AddBaseToList()
         {
