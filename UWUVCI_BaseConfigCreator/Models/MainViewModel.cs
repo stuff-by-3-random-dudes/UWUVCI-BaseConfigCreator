@@ -84,9 +84,6 @@ namespace UWUVCI_BaseConfigCreator
                 OnPropertyChanged();
             }
         }
-
-
-
         public MainViewModel()
         {
             Regions = Enum.GetValues(typeof(GameBaseClassLibrary.Regions)).Cast<Regions>().ToList();
@@ -121,7 +118,7 @@ namespace UWUVCI_BaseConfigCreator
             {
                 throw new GameBaseException($"A TitleKey with no value is not valid!");
             }
-            TempBase.KeyHash = NonHashedKey.ToLower().GetHashCode();
+            TempBase.KeyHash = GetDeterministicHashCode(NonHashedKey);
             NonHashedKey = string.Empty;
             LGameBases.Add(TempBase);
             TempBase = new GameBases();
@@ -143,83 +140,61 @@ namespace UWUVCI_BaseConfigCreator
         public void SaveBasesToFile(string fileName)
         {
             if(LGameBases.Count < 1)
-            {
                 throw new GameBaseException("You need to add Bases first!");
-            }
-            if (GameConsole == GameConsoles.GCN) GameConsole = GameConsoles.WII;
+
+            if (GameConsole == GameConsoles.GCN) 
+                GameConsole = GameConsoles.WII;
+
             VCBTool.ExportFile(LGameBases, GameConsole, fileName);
         }
-
-        public void moveSelBaseUp()
+        private void MoveSelectedBase(bool goingUp = false)
         {
-
-            int length = LGameBases.Count - 1;
-            if(length > 0 && selectedGameBase != null)
-
-            {
-                List<GameBases> backupList = new List<GameBases>();
-                foreach (GameBases gb in LGameBases)
-                {
-                    backupList.Add(gb);
-                }
-                    int selBaseID = 0;
-                foreach (GameBases gb in backupList)
-                {
-                    if (gb.Name == SelectedGameBase.Name && gb.KeyHash == SelectedGameBase.KeyHash && gb.Region == SelectedGameBase.Region && gb.Tid == SelectedGameBase.Tid)
-                    {
-                        break;
-                    }
-                    selBaseID++;
-                }
-                if (selBaseID == length)
-                {
-                    GameBases SavedBase = backupList[selBaseID - 1];
-                    backupList[selBaseID - 1] = selectedGameBase;
-                    backupList[selBaseID] = SavedBase;
-                }
-                else
-                {
-                    GameBases SavedBase = backupList[selBaseID - 1];
-                    backupList[selBaseID - 1] = selectedGameBase;
-                    backupList[selBaseID] = SavedBase;
-                }
-                LGameBases = backupList;
-            }
-            
-        }
-        public void moveSelBaseDown()
-        {
-
             int length = LGameBases.Count - 1;
             if (length > 0 && selectedGameBase != null)
-
             {
                 List<GameBases> backupList = new List<GameBases>();
-                foreach (GameBases gb in LGameBases)
-                {
-                    backupList.Add(gb);
-                }
+                backupList.AddRange(LGameBases);
+
                 int selBaseID = 0;
                 foreach (GameBases gb in backupList)
                 {
                     if (gb.Name == SelectedGameBase.Name && gb.KeyHash == SelectedGameBase.KeyHash && gb.Region == SelectedGameBase.Region && gb.Tid == SelectedGameBase.Tid)
-                    {
                         break;
-                    }
                     selBaseID++;
                 }
-                if (selBaseID == length)
-                {
-                }
-                else
-                {
-                    GameBases SavedBase = backupList[selBaseID + 1];
-                    backupList[selBaseID + 1] = selectedGameBase;
-                    backupList[selBaseID] = SavedBase;
-                }
+
+                var index = selBaseID + (goingUp ? 1 : -1);
+                GameBases SavedBase = backupList[index];
+                backupList[index] = selectedGameBase;
+                backupList[selBaseID] = SavedBase;
+
                 LGameBases = backupList;
             }
+        }
+        public void moveSelBaseUp()
+        {
+            MoveSelectedBase();
+        }
+        public void moveSelBaseDown()
+        {
+            MoveSelectedBase(true);
+        }
+        private static int GetDeterministicHashCode(string str)
+        {
+            unchecked
+            {
+                int hash1 = (5381 << 16) + 5381;
+                int hash2 = hash1;
 
+                for (int i = 0; i < str.Length; i += 2)
+                {
+                    hash1 = ((hash1 << 5) + hash1) ^ str[i];
+                    if (i == str.Length - 1)
+                        break;
+                    hash2 = ((hash2 << 5) + hash2) ^ str[i + 1];
+                }
+                return hash1 + (hash2 * 1566083941);
+            }
         }
     }
 }
