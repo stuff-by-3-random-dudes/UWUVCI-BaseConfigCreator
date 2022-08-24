@@ -84,9 +84,6 @@ namespace UWUVCI_BaseConfigCreator
                 OnPropertyChanged();
             }
         }
-
-
-
         public MainViewModel()
         {
             Regions = Enum.GetValues(typeof(GameBaseClassLibrary.Regions)).Cast<Regions>().ToList();
@@ -143,85 +140,46 @@ namespace UWUVCI_BaseConfigCreator
         public void SaveBasesToFile(string fileName)
         {
             if(LGameBases.Count < 1)
-            {
                 throw new GameBaseException("You need to add Bases first!");
-            }
-            if (GameConsole == GameConsoles.GCN) GameConsole = GameConsoles.WII;
+
+            if (GameConsole == GameConsoles.GCN) 
+                GameConsole = GameConsoles.WII;
+
             VCBTool.ExportFile(LGameBases, GameConsole, fileName);
         }
-
-        public void moveSelBaseUp()
+        private void MoveSelectedBase(bool goingUp = false)
         {
-
-            int length = LGameBases.Count - 1;
-            if(length > 0 && selectedGameBase != null)
-
-            {
-                List<GameBases> backupList = new List<GameBases>();
-                foreach (GameBases gb in LGameBases)
-                {
-                    backupList.Add(gb);
-                }
-                    int selBaseID = 0;
-                foreach (GameBases gb in backupList)
-                {
-                    if (gb.Name == SelectedGameBase.Name && gb.KeyHash == SelectedGameBase.KeyHash && gb.Region == SelectedGameBase.Region && gb.Tid == SelectedGameBase.Tid)
-                    {
-                        break;
-                    }
-                    selBaseID++;
-                }
-                if (selBaseID == length)
-                {
-                    GameBases SavedBase = backupList[selBaseID - 1];
-                    backupList[selBaseID - 1] = selectedGameBase;
-                    backupList[selBaseID] = SavedBase;
-                }
-                else
-                {
-                    GameBases SavedBase = backupList[selBaseID - 1];
-                    backupList[selBaseID - 1] = selectedGameBase;
-                    backupList[selBaseID] = SavedBase;
-                }
-                LGameBases = backupList;
-            }
-            
-        }
-        public void moveSelBaseDown()
-        {
-
             int length = LGameBases.Count - 1;
             if (length > 0 && selectedGameBase != null)
-
             {
                 List<GameBases> backupList = new List<GameBases>();
-                foreach (GameBases gb in LGameBases)
-                {
-                    backupList.Add(gb);
-                }
+                backupList.AddRange(LGameBases);
+
                 int selBaseID = 0;
                 foreach (GameBases gb in backupList)
                 {
                     if (gb.Name == SelectedGameBase.Name && gb.KeyHash == SelectedGameBase.KeyHash && gb.Region == SelectedGameBase.Region && gb.Tid == SelectedGameBase.Tid)
-                    {
                         break;
-                    }
                     selBaseID++;
                 }
-                if (selBaseID == length)
-                {
-                }
-                else
-                {
-                    GameBases SavedBase = backupList[selBaseID + 1];
-                    backupList[selBaseID + 1] = selectedGameBase;
-                    backupList[selBaseID] = SavedBase;
-                }
+
+                var index = selBaseID + (goingUp ? 1 : -1);
+                GameBases SavedBase = backupList[index];
+                backupList[index] = selectedGameBase;
+                backupList[selBaseID] = SavedBase;
+
                 LGameBases = backupList;
             }
-
         }
-        public static int GetDeterministicHashCode(string str)
+        public void moveSelBaseUp()
+        {
+            MoveSelectedBase();
+        }
+        public void moveSelBaseDown()
+        {
+            MoveSelectedBase(true);
+        }
+        private static int GetDeterministicHashCode(string str)
         {
             unchecked
             {
