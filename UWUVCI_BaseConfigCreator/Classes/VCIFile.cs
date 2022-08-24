@@ -20,33 +20,29 @@ namespace UWUVCI_BaseConfigCreator.Classes
         public static void ExportFile(List<GameBases> precomp, GameConsoles console)
         {
             CheckAndFixConfigFolder();
-            Stream createConfigStream = new FileStream($@"configs\bases.vcb{console.ToString().ToLower()}", FileMode.Create, FileAccess.Write);
-            GZipStream compressedStream = new GZipStream(createConfigStream, CompressionMode.Compress);
-            IFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(compressedStream, precomp);
-            compressedStream.Close();
-            createConfigStream.Close();
+            using (Stream createConfigStream = new FileStream($@"configs\bases.vcb{console.ToString().ToLower()}", FileMode.Create, FileAccess.Write))
+                using(GZipStream compressedStream = new(createConfigStream, CompressionMode.Compress)) 
+                {
+                    IFormatter formatter = new BinaryFormatter();
+                    formatter.Serialize(compressedStream, precomp);
+                }
+
             ReadFromConfig($@"configs\bases.vcb{console.ToString().ToLower()}");
         }
         private static void CheckAndFixConfigFolder()
         {
-            if (!Directory.Exists(@"configs"))
-            {
-                Directory.CreateDirectory(@"configs");
-            }
+            Directory.CreateDirectory(@"configs");
         }
         public static void ReadFromConfig(string configPath)
         {
-            FileInfo fn = new FileInfo(configPath);
+            FileInfo fn = new(configPath);
             if (fn.Extension.Contains("vcb"))
             {
-                FileStream inputConfigStream = new FileStream(configPath, FileMode.Open, FileAccess.Read);
-                GZipStream decompressedConfigStream = new GZipStream(inputConfigStream, CompressionMode.Decompress);
+                using FileStream inputConfigStream = new(configPath, FileMode.Open, FileAccess.Read);
+                using GZipStream decompressedConfigStream = new(inputConfigStream, CompressionMode.Decompress);
                 IFormatter formatter = new BinaryFormatter();
                 List<GameBases> to_export = (List<GameBases>)formatter.Deserialize(decompressedConfigStream);
-               
             }
-
         }
     }
 }
