@@ -20,12 +20,18 @@ namespace UWUVCI_BaseConfigCreator.Classes
         public static void ExportFile(List<GameBases> precomp, GameConsoles console)
         {
             CheckAndFixConfigFolder();
+            //Stream createConfigStream = new FileStream($@"configs\bases.vcb{console.ToString().ToLower()}", FileMode.Create, FileAccess.Write);
+            //GZipStream compressedStream = new GZipStream(createConfigStream, CompressionMode.Compress);
+            //IFormatter formatter = new BinaryFormatter();
+            //formatter.Serialize(compressedStream, precomp);
+            //compressedStream.Close();
+            //createConfigStream.Close();
             using (Stream createConfigStream = new FileStream($@"configs\bases.vcb{console.ToString().ToLower()}", FileMode.Create, FileAccess.Write))
-                using(GZipStream compressedStream = new(createConfigStream, CompressionMode.Compress)) 
-                {
-                    IFormatter formatter = new BinaryFormatter();
-                    formatter.Serialize(compressedStream, precomp);
-                }
+            using (GZipStream compressedStream = new(createConfigStream, CompressionMode.Compress))
+            {
+                IFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(compressedStream, precomp);
+            }
 
             ReadFromConfig($@"configs\bases.vcb{console.ToString().ToLower()}");
         }
