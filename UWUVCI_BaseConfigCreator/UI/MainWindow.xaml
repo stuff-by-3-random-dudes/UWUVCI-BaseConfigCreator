@@ -5,29 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UWUVCI_BaseConfigCreator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="329.509" Width="800">
+        Title="MainWindow" Height="329.509" Width="850">
     <Grid DataContext="{StaticResource mvm}">
-        <GroupBox Header="Config" HorizontalAlignment="Left" Height="231" Margin="10,10,0,0" VerticalAlignment="Top" Width="326">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="91*"/>
+            <ColumnDefinition Width="507*"/>
+            <ColumnDefinition Width="202*"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="Config" HorizontalAlignment="Left" Height="231" Margin="10,10,0,0" VerticalAlignment="Top" Width="326" Grid.ColumnSpan="2">
             <Grid HorizontalAlignment="Left" Height="206" Margin="0,0,-2,0" VerticalAlignment="Top" Width="316">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="99*"/>
                     <ColumnDefinition Width="217*"/>
                 </Grid.ColumnDefinitions>
-                <ComboBox HorizontalAlignment="Left" Margin="5.738,67,0,0" VerticalAlignment="Top" Width="191" Grid.Column="1" SelectedItem="{Binding TempBase.Region}" ItemsSource="{Binding Regions}"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="5.738,32,0,0" TextWrapping="Wrap" Text="{Binding TempBase.Name}" VerticalAlignment="Top" Width="191" Grid.Column="1"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="5.738,105,0,0" TextWrapping="Wrap" Text="{Binding TempBase.Tid}" VerticalAlignment="Top" Width="191" Grid.Column="1"/>
+                <ComboBox Name="GameRegionBox" HorizontalAlignment="Left" Margin="5.738,67,0,0" VerticalAlignment="Top" Width="191" Grid.Column="1" SelectedItem="{Binding TempBase.Region}" ItemsSource="{Binding Regions}"/>
+                <TextBox Name="GameNameBox" HorizontalAlignment="Left" Height="23" Margin="5.738,32,0,0" TextWrapping="Wrap" Text="{Binding TempBase.Name}" VerticalAlignment="Top" Width="191" Grid.Column="1"/>
+                <TextBox Name="GameIdBox" HorizontalAlignment="Left" Height="23" Margin="5.738,105,0,0" TextWrapping="Wrap" Text="{Binding TempBase.Tid}" VerticalAlignment="Top" Width="191" Grid.Column="1"/>
                 <TextBlock HorizontalAlignment="Left" Margin="10,35,0,0" TextWrapping="Wrap" Text="Game Name:" VerticalAlignment="Top"/>
                 <TextBlock HorizontalAlignment="Left" Margin="10,70,0,0" TextWrapping="Wrap" Text="Game Region:" VerticalAlignment="Top"/>
                 <TextBlock HorizontalAlignment="Left" Margin="10,108,0,0" TextWrapping="Wrap" Text="Game ID:" VerticalAlignment="Top"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="6,136,0,0" TextWrapping="Wrap" Text="{Binding NonHashedKey}" VerticalAlignment="Top" Width="191" Grid.Column="1"/>
+                <TextBox Name="GameKeyBox" HorizontalAlignment="Left" Height="23" Margin="6,136,0,0" TextWrapping="Wrap" Text="{Binding NonHashedKey}" VerticalAlignment="Top" Width="191" Grid.Column="1"/>
                 <TextBlock HorizontalAlignment="Left" Margin="10,139,0,0" TextWrapping="Wrap" Text="Game Key:" VerticalAlignment="Top"/>
-                <Button Content="Add" Grid.Column="1" HorizontalAlignment="Left" Margin="122,176,0,0" VerticalAlignment="Top" Width="75" Click="BtnAdd_Click"/>
+                <Button Name="Add" Content="Add" Grid.Column="1" HorizontalAlignment="Left" Margin="122,176,0,0" VerticalAlignment="Top" Width="75" Click="BtnAdd_Click"/>
+                <Button Name="Update" Content="Update" Grid.Column="1" HorizontalAlignment="Left" Margin="33,176,0,0" VerticalAlignment="Top" Width="76" Click="UpdateClick" Visibility="Hidden"/>
+                <Button x:Name="CancelUpdate" Content="Cancel Update" HorizontalAlignment="Left" Margin="26,176,0,0" VerticalAlignment="Top" Width="94" Click="CancelUpdateClick" Grid.ColumnSpan="2" Visibility="Hidden"/>
             </Grid>
         </GroupBox>
-        <ComboBox HorizontalAlignment="Left" Margin="10,260,0,0" VerticalAlignment="Top" Width="326" ItemsSource="{Binding LConsoles}" SelectedItem="{Binding GameConsole}"/>
+        <ComboBox HorizontalAlignment="Left" Margin="10,260,0,0" VerticalAlignment="Top" Width="326" ItemsSource="{Binding LConsoles}" SelectedItem="{Binding GameConsole}" Grid.ColumnSpan="2"/>
         <Label Content="Console:" HorizontalAlignment="Left" Margin="10,238,0,0" VerticalAlignment="Top"/>
-        <GroupBox Header="List of Bases" HorizontalAlignment="Left" Height="231" Margin="356,10,0,0" VerticalAlignment="Top" Width="426">
-            <DataGrid x:Name="dgGameBases" HorizontalAlignment="Left" Height="209" Margin="0,0,-2,-1" VerticalAlignment="Top" Width="416" ItemsSource="{Binding LGameBases}" SelectedItem="{Binding SelectedGameBase}" SelectionMode="Single" AutoGenerateColumns="False" CanUserReorderColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserResizeColumns="False" CanUserSortColumns="False" MouseDoubleClick="dgGameBases_MouseDoubleClick">
+        <GroupBox Header="List of Bases" HorizontalAlignment="Left" Height="231" Margin="265,10,0,0" VerticalAlignment="Top" Width="457" Grid.ColumnSpan="2" Grid.Column="1">
+            <DataGrid x:Name="dgGameBases" Height="209" Margin="0,0,-2,0" VerticalAlignment="Center" ItemsSource="{Binding LGameBases}" SelectedItem="{Binding SelectedGameBase}" SelectionMode="Single" AutoGenerateColumns="False" CanUserReorderColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserResizeColumns="False" CanUserSortColumns="False" MouseDoubleClick="dgGameBases_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                     <DataGridTextColumn Header="Region" Binding="{Binding Region}"/>
@@ -36,10 +43,11 @@
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
-        <Button Content="Export Base File" HorizontalAlignment="Left" Margin="685,260,0,0" VerticalAlignment="Top" Width="97" Click="BtnExport_Click"/>
-        <Button Content="Import Base File" HorizontalAlignment="Left" Margin="583,261,0,0" VerticalAlignment="Top" Width="97" Click="Button_Click"  />
-        <Button Content="^" HorizontalAlignment="Left" Margin="422,246,0,0" VerticalAlignment="Top" Width="25" Click="Button_Click_1"/>
-        <Button Content="v" HorizontalAlignment="Left" Margin="422,269,0,0" VerticalAlignment="Top" Width="25" Click="Button_Click_2"/>
+        <Button Content="Export Base File" HorizontalAlignment="Left" Margin="87,261,0,0" VerticalAlignment="Top" Width="97" Click="BtnExport_Click" Grid.Column="2"/>
+        <Button Content="Import Base File" HorizontalAlignment="Left" Margin="503,261,0,0" VerticalAlignment="Top" Width="97" Click="Button_Click" Grid.ColumnSpan="2" Grid.Column="1"  />
+        <Button Content="^" HorizontalAlignment="Left" Margin="331,246,0,0" VerticalAlignment="Top" Width="25" Click="Button_Click_1" Grid.Column="1"/>
+        <Button Content="v" HorizontalAlignment="Left" Margin="331,269,0,0" VerticalAlignment="Top" Width="25" Click="Button_Click_2" Grid.Column="1"/>
+        <Button Content="Edit Selected" HorizontalAlignment="Left" Margin="380,261,0,0" VerticalAlignment="Top" Width="98" Click="EditSelectedClick" Grid.Column="1"  />
 
     </Grid>
 </Window>
