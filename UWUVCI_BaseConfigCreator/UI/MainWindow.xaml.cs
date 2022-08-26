@@ -104,5 +104,58 @@ namespace UWUVCI_BaseConfigCreator
         {
             mvm.moveSelBaseDown();
         }
+
+        private void UpdateClick(object sender, RoutedEventArgs e)
+        {
+            var loopCount = -1;
+            for (var i = 0; i < mvm.LGameBases.Count - 1; i++)
+                if (mvm.SelectedGameBase.KeyHash == mvm.LGameBases[i].KeyHash)
+                    loopCount = mvm.LGameBases.Count - 1 - i;
+
+            mvm.TempBase = new GameBaseClassLibrary.GameBases()
+            {
+                Name = GameNameBox.Text,
+                Tid = GameIdBox.Text
+            };
+
+            mvm.RemoveSelectedGameBase();
+            mvm.AddBaseToList();
+
+            mvm.SelectedGameBase = mvm.LGameBases[mvm.LGameBases.Count - 1];
+
+            for (var i = 0; i < loopCount; i++)
+                mvm.moveSelBaseUp();
+
+            mvm.TempBase = new GameBaseClassLibrary.GameBases();
+
+            Add.Visibility = Visibility.Visible;
+            Update.Visibility = Visibility.Hidden;
+            CancelUpdate.Visibility = Visibility.Hidden;
+        }
+
+        private void EditSelectedClick(object sender, RoutedEventArgs e)
+        {
+            var gameBase = mvm.SelectedGameBase;
+
+            if (gameBase == null)
+                return;
+
+            GameNameBox.Text = gameBase.Name;
+            GameIdBox.Text = gameBase.Tid;
+            GameRegionBox.Text = gameBase.Region.ToString();
+
+            Add.Visibility = Visibility.Hidden;
+            Update.Visibility = Visibility.Visible;
+            CancelUpdate.Visibility = Visibility.Visible;
+        }
+
+        private void CancelUpdateClick(object sender, RoutedEventArgs e)
+        {
+            mvm.TempBase = new GameBaseClassLibrary.GameBases();
+
+            Add.Visibility = Visibility.Visible;
+            Update.Visibility = Visibility.Hidden;
+            CancelUpdate.Visibility = Visibility.Hidden;
+        }
     }
 }
